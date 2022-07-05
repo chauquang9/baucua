@@ -1,5 +1,8 @@
 import axios from "axios";
+import { useDispatch } from "react-redux";
 import StorageKeys from "../constants/storage-keys";
+import { logout } from "../slices/authReducer";
+import configs from "./configs";
 
 function getCredentials() {
   const credentials = localStorage.getItem(StorageKeys.credentials);
@@ -8,8 +11,27 @@ function getCredentials() {
 }
 
 const axiosClient = axios.create({
-  baseURL: "http://dev.baucua-laravel.com/",
+  baseURL: configs.url,
 });
+
+// const { dispatch } = store;
+
+axiosClient.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response.status === 401) {
+      localStorage.removeItem(StorageKeys.credentials);
+      localStorage.removeItem(StorageKeys.user);
+      window.location.reload();
+
+      return Promise.resolve();
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 axiosClient.interceptors.request.use(
   (config) => {
@@ -24,6 +46,7 @@ axiosClient.interceptors.request.use(
 
     if (accessToken != null) {
       headers.Authorization = `Bearer ${accessToken.access_token}`;
+      headers.Accept = `application/json`;
     }
 
     config.headers = headers;

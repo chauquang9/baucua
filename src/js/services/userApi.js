@@ -1,7 +1,7 @@
 import axios from "../configs/axiosClient";
 
 const userApi = {
-  getUser() {
+  async getUser() {
     const url = "/api/user";
     return axios.get(url);
   },

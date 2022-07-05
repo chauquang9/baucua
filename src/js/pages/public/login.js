@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from "react";
+import React, { Component, useEffect, useState } from "react";
 import Master from "./master";
 
 import Avatar from "@mui/material/Avatar";
@@ -22,6 +22,7 @@ const Login = () => {
   const isLogin = checkSession();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (isLogin) {
@@ -32,20 +33,29 @@ const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    dispatch(login(data)).then(() => {
-      navigate("/baucua");
+    dispatch(login(data)).then((response) => {
+      let payload = response.payload;
+      if (typeof response.error != "undefined") {
+        setErrorMessage(payload);
+      } else {
+        navigate("/baucua");
+      }
     });
   };
 
   return (
     <Master>
-      <Container component="main" maxWidth="xs">
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
+      <Container className="login-form" component="main" maxWidth="xs">
+        <div className="sign-in">
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+        </div>
+        {console.log(errorMessage)}
+        {errorMessage ? <p style={{ color: "#ff0000" }}>{errorMessage}</p> : ""}
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
