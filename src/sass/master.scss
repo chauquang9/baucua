@@ -140,7 +140,26 @@ header {
 
 @media only screen and (max-width: 600px) {                
     .result-item {
-        margin-left:11px;
+        margin-right: 0 !important;
         width: 90% !important;
     }
+}
+
+@media only screen and (min-width: 600px) {
+    
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    
 }

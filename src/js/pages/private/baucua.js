@@ -188,6 +188,7 @@ const Baucua = () => {
           priceBet: item.priceBet,
           userId: item.userId,
           username: item.username,
+          avatar: item.avatar,
           x: numberX + "px",
           y: numberY + "px",
         };
@@ -210,12 +211,20 @@ const Baucua = () => {
             </React.Fragment>
           }
         >
-          <Avatar
-            className="avatar-header"
-            sx={{ bgcolor: item.colorHex, width: 28, height: 28 }}
-          >
-            {item.username.charAt(0).toUpperCase()}
-          </Avatar>
+          {item.avatar ? (
+            <Avatar
+              className="avatar-header"
+              src={configs.url + "" + item.avatar}
+              sx={{ width: 28, height: 28 }}
+            ></Avatar>
+          ) : (
+            <Avatar
+              className="avatar-header"
+              sx={{ bgcolor: item.colorHex, width: 28, height: 28 }}
+            >
+              {item.username.charAt(0).toUpperCase()}
+            </Avatar>
+          )}
         </HtmlTooltip>
       </div>
     ));

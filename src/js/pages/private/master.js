@@ -14,6 +14,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import Profile from "./profile";
+import configs from "../../configs/configs";
 
 class Master extends Component {
   constructor(props) {
@@ -82,15 +83,21 @@ class Master extends Component {
                   aria-haspopup="true"
                   aria-expanded={this.state.open ? "true" : undefined}
                 >
-                  <Avatar
-                    sx={{
-                      bgcolor: this.props.user.current.colorHex,
-                      width: 46,
-                      height: 46,
-                    }}
-                  >
-                    {firstWordUpper.charAt(0).toUpperCase()}
-                  </Avatar>
+                  {this.props.user.current.avatar.length != 0 ? (
+                    <Avatar
+                      src={configs.url + "" + this.props.user.current.avatar}
+                    ></Avatar>
+                  ) : (
+                    <Avatar
+                      sx={{
+                        bgcolor: this.props.user.current.colorHex,
+                        width: 46,
+                        height: 46,
+                      }}
+                    >
+                      {firstWordUpper.charAt(0).toUpperCase()}
+                    </Avatar>
+                  )}
                 </IconButton>
               </Tooltip>
             </div>
@@ -131,13 +138,21 @@ class Master extends Component {
             >
               <MenuItem>
                 <Button color="info" onClick={this.handleOpenProfile}>
-                  <Avatar
-                    sx={{
-                      bgcolor: this.props.user.current.colorHex,
-                      width: 46,
-                      height: 46,
-                    }}
-                  ></Avatar>
+                  {this.props.user.current.avatar.length != 0 ? (
+                    <Avatar
+                      src={configs.url + "" + this.props.user.current.avatar}
+                    ></Avatar>
+                  ) : (
+                    <Avatar
+                      sx={{
+                        bgcolor: this.props.user.current.colorHex,
+                        width: 46,
+                        height: 46,
+                      }}
+                    >
+                      {firstWordUpper.charAt(0).toUpperCase()}
+                    </Avatar>
+                  )}
                   Profile
                 </Button>
                 <Profile

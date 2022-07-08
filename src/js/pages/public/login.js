@@ -54,7 +54,6 @@ const Login = () => {
             Sign in
           </Typography>
         </div>
-        {console.log(errorMessage)}
         {errorMessage ? <p style={{ color: "#ff0000" }}>{errorMessage}</p> : ""}
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField

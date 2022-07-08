@@ -62,6 +62,56 @@ export const userProfile = createAsyncThunk(
   }
 );
 
+export const updateUserProfile = createAsyncThunk(
+  "auth/updateUserProfile",
+  async (
+    payload,
+    { dispatch, getState, rejectWithValue, fulfillWithValue }
+  ) => {
+    try {
+      let dataRequest = {
+        email: payload.get("email"),
+        name: payload.get("name"),
+      };
+      const responseUser = await userApi.updateUser(dataRequest);
+      const user = { ...responseUser.data };
+      const data = {
+        ...user,
+      };
+      localStorage.setItem(StorageKeys.user, JSON.stringify(data));
+
+      return data;
+    } catch (error) {
+      if (error.response.status !== 200) {
+        throw rejectWithValue(error.response.data.message);
+      }
+    }
+  }
+);
+
+export const uploadAvatarUserProfile = createAsyncThunk(
+  "auth/uploadAvatarUserProfile",
+  async (
+    payload,
+    { dispatch, getState, rejectWithValue, fulfillWithValue }
+  ) => {
+    try {
+      const responseUser = await userApi.uploadAvatar(payload);
+      const user = { ...responseUser.data };
+      const data = {
+        ...user,
+      };
+      localStorage.setItem(StorageKeys.user, JSON.stringify(data));
+
+      return data;
+    } catch (error) {
+      if (error.response.status !== 200) {
+        throw rejectWithValue(error.response.data.message);
+      }
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -92,6 +142,26 @@ const authSlice = createSlice({
     },
     [userProfile.fulfilled]: (state, action) => {
       state.current = action.payload;
+    },
+    [updateUserProfile.pending]: (state, action) => {
+      //some action here
+    },
+    [updateUserProfile.fulfilled]: (state, action) => {
+      state.current = action.payload;
+    },
+    [updateUserProfile.rejected]: (state, action) => {
+      state.error = action.payload;
+    },
+    [uploadAvatarUserProfile.fulfilled]: (state, action) => {
+      state.current = action.payload;
+      state.isLoading = 0;
+    },
+    [uploadAvatarUserProfile.rejected]: (state, action) => {
+      state.error = action.payload;
+      state.isLoading = 0;
+    },
+    [uploadAvatarUserProfile.pending]: (state, action) => {
+      state.isLoading = 1;
     },
   },
 });

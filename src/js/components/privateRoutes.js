@@ -11,7 +11,7 @@ export default function PrivateRoutes() {
     dispatch(logout());
   }
 
-  return <>{isLogin ? <Outlet /> : <Navigate to="/login" />};</>;
+  return <>{isLogin ? <Outlet /> : <Navigate to="/login" />}</>;
 }
 
 export function checkSession() {
