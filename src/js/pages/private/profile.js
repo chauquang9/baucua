@@ -88,7 +88,6 @@ const Profile = (props) => {
           </Button>
           {user.isLoading ? <CircularProgress /> : ""}
           <TextField
-            autoFocus
             margin="dense"
             id="email"
             name="email"
@@ -99,7 +98,6 @@ const Profile = (props) => {
             defaultValue={user.current.email}
           />
           <TextField
-            autoFocus
             margin="dense"
             id="name"
             name="name"

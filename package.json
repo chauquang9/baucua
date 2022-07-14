@@ -2,18 +2,21 @@
   "name": "baucua",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://chauquang9.github.io/baucua/",
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@mui/icons-material": "^5.8.3",
-    "@mui/material": "^5.8.3",
-    "@reduxjs/toolkit": "^1.8.2",
+    "@mui/material": "^5.9.0",
+    "@reduxjs/toolkit": "^1.8.3",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
+    "chart.js": "^3.8.0",
     "node-sass": "^7.0.1",
     "react": "^18.1.0",
+    "react-chartjs-2": "^4.3.1",
     "react-device-detect": "^2.2.2",
     "react-dom": "^18.1.0",
     "react-redux": "^8.0.2",
@@ -46,7 +49,8 @@
     ]
   },
   "devDependencies": {
-    "laravel-echo": "^1.11.7",
+    "gh-pages": "^1.1.0",
+    "laravel-echo": "^1.12.1",
     "pusher-js": "^7.1.1-beta"
   }
 }

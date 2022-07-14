@@ -1,3 +1,5 @@
+$active-color: #53b8c6;
+
 header {
     width: 100%;
     background-color: #41B3A3 !important;
@@ -10,8 +12,7 @@ header {
     }
 
     .left-header {
-        float: left;
-        padding: 20px 20px 20px 20px;
+        height: 100%;
         display: inline-block;
     }
 
@@ -68,7 +69,6 @@ header {
             position: relative;
         
             .image-item {
-                
                 width: 100%;
             }
 
@@ -124,6 +124,34 @@ header {
     animation-iteration-count: infinite;
 }
 
+
+.main-menu  {
+    display: inline-block;
+    list-style-type: none;
+    height: 100%;
+    margin: 0;
+    padding: 29px 0 0 20px;
+
+    li {
+        display: inline-block;
+        height: 100%;
+
+        a {            
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 0px 36px;
+            text-decoration: none;
+            font-weight: bold;
+            height: 40%;
+        }
+
+        a.active {
+            border-bottom: 5px solid #23085a;
+        }
+    }
+}
+
 @keyframes shake {
     0% { transform: translate(1px, 1px) rotate(0deg); }
     10% { transform: translate(-1px, -2px) rotate(-1deg); }
@@ -136,6 +164,68 @@ header {
     80% { transform: translate(-1px, -1px) rotate(1deg); }
     90% { transform: translate(1px, 2px) rotate(0deg); }
     100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+.hidden-mobile-menu {
+    bottom: -60px !important;
+}
+
+.mobile-menu {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    transition: bottom 0.6s;
+    background: white;
+
+    ul {
+        width: 100%;
+        display: inline-block;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            text-align: center;
+            padding-top: 10px;
+            width: 50%;
+            height: 100%;
+            display: inline-block;
+            border-left: 1px solid #c8c8c8;
+            border-top: 1px solid #c8c8c8;
+            border-bottom: 1px solid #c8c8c8;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -ms-box-sizing: border-box;
+            box-sizing: border-box;
+            
+            a {
+                font-size: 10px;
+                text-decoration: none;
+
+                .caption {
+                    color: gray;
+                    display: block;
+                }
+            }
+
+            .icon {
+                color: black;
+            }
+
+            .active {
+                color: $active-color !important;
+
+                .icon {
+                    color: $active-color !important;
+                }
+
+                span {
+                    color: $active-color !important;
+                }
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: 600px) {                

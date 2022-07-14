@@ -17,6 +17,10 @@ const userApi = {
       },
     });
   },
+  async updatePassword(data) {
+    const url = "/api/user/change-password";
+    return axios.post(url, data);
+  },
 };
 
 export default userApi;

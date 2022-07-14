@@ -2,19 +2,37 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import React, { Component } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate, withNavigation } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  NavLink,
+  useNavigate,
+  withNavigation,
+} from "react-router-dom";
 import { logout } from "../../slices/authReducer";
 import { withRouter } from "../../components/withRouter";
 import { styled } from "@mui/material/styles";
 import { purple } from "@mui/material/colors";
-import { Avatar, AvatarGroup, Tooltip } from "@mui/material";
+import {
+  Avatar,
+  AvatarGroup,
+  createSvgIcon,
+  Grid,
+  Icon,
+  SvgIcon,
+  Tooltip,
+} from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import Profile from "./profile";
+import ChangePassword from "./changePassword";
 import configs from "../../configs/configs";
+import { isMobile } from "react-device-detect";
+import { ReactComponent as HomeIcon } from "../../../asserts/svg/home_black.svg";
+import { ReactComponent as StatisticIcon } from "../../../asserts/svg/view_column.svg";
 
 class Master extends Component {
   constructor(props) {
@@ -24,8 +42,34 @@ class Master extends Component {
       anchorEl: null,
       open: Boolean(null),
       openProfile: Boolean(null),
+      openChangePassword: Boolean(null),
+      prevScrollpos: window.pageYOffset,
+      visible: true,
     };
   }
+
+  // Adds an event listener when the component is mount.
+  componentDidMount() {
+    window.addEventListener("scroll", this.handleScroll);
+  }
+
+  // Remove the event listener when the component is unmount.
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
+  }
+
+  // Hide or show the menu.
+  handleScroll = () => {
+    const { prevScrollpos } = this.state;
+
+    const currentScrollPos = window.pageYOffset;
+    const visible = prevScrollpos > currentScrollPos;
+
+    this.setState({
+      prevScrollpos: currentScrollPos,
+      visible,
+    });
+  };
 
   handleLogout = () => {
     this.props.logout();
@@ -37,15 +81,19 @@ class Master extends Component {
       anchorEl: event.currentTarget,
       open: Boolean(1),
       openProfile: Boolean(null),
+      openChangePassword: Boolean(null),
     });
   };
 
-  handleClose = () => {
-    if (!this.state.openProfile) {
+  handleClose = (e) => {
+    e.preventDefault();
+    if (e.key !== "Tab") {
       this.setState({
         anchorEl: null,
         open: Boolean(null),
       });
+    } else {
+      e.stopPropagation();
     }
   };
 
@@ -62,13 +110,54 @@ class Master extends Component {
     });
   };
 
+  handleOpenChangePassword = () => {
+    this.setState({
+      openChangePassword: Boolean(1),
+      open: Boolean(1),
+    });
+  };
+
+  handleCloseChangePassword = (e) => {
+    e.preventDefault();
+    this.setState({
+      openChangePassword: Boolean(null),
+    });
+  };
+
   render() {
     const firstWordUpper = this.props.user.current.name ?? "";
 
     return (
       <div className="container">
         <header className="header-admin">
-          <div className="left-header"></div>
+          <div className="left-header">
+            {!isMobile ? (
+              <ul className="main-menu">
+                <li>
+                  <NavLink
+                    className={(navData) =>
+                      navData.isActive ? "active" : "link"
+                    }
+                    to="/baucua"
+                  >
+                    Game
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className={(navData) =>
+                      navData.isActive ? "active" : "link"
+                    }
+                    to="/statistics"
+                  >
+                    Statistics
+                  </NavLink>
+                </li>
+              </ul>
+            ) : (
+              ""
+            )}
+          </div>
           <div className="right-header">
             <div className="money-header">
               Money: <strong>{this.props.user.current.price}</strong>
@@ -155,17 +244,75 @@ class Master extends Component {
                   )}
                   Profile
                 </Button>
-                <Profile
-                  open={this.state.openProfile}
-                  onClose={this.handleCloseProfile}
-                ></Profile>
+              </MenuItem>
+              <MenuItem>
+                <Button color="info" onClick={this.handleOpenChangePassword}>
+                  Change password
+                </Button>
               </MenuItem>
               <Divider />
               <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
             </Menu>
+
+            {/* popup */}
+            <Profile
+              open={this.state.openProfile}
+              onClose={this.handleCloseProfile}
+            ></Profile>
+
+            <ChangePassword
+              open={this.state.openChangePassword}
+              onClose={this.handleCloseChangePassword}
+            ></ChangePassword>
           </div>
         </header>
         <div className="container content-admin">{this.props.children}</div>
+        {isMobile ? (
+          <Grid
+            className={
+              "mobile-menu" +
+              (!this.state.visible ? " hidden-mobile-menu" : " ")
+            }
+            xs={12}
+            container
+          >
+            <ul>
+              <li>
+                <NavLink
+                  className={(navData) =>
+                    navData.isActive ? "active" : "link"
+                  }
+                  to="/baucua"
+                >
+                  <SvgIcon
+                    className="icon"
+                    component={HomeIcon}
+                    inheritViewBox
+                  />
+                  <span className="caption">Game</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  className={(navData) =>
+                    navData.isActive ? "active" : "link"
+                  }
+                  to="/statistics"
+                >
+                  <SvgIcon
+                    className="icon"
+                    component={StatisticIcon}
+                    inheritViewBox
+                  />
+                  <span className="caption">Statistics</span>
+                </NavLink>
+              </li>
+            </ul>
+          </Grid>
+        ) : (
+          ""
+        )}
+
         <footer></footer>
       </div>
     );

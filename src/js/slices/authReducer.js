@@ -112,6 +112,34 @@ export const uploadAvatarUserProfile = createAsyncThunk(
   }
 );
 
+export const updateUserPassword = createAsyncThunk(
+  "auth/updateUserPassword",
+  async (
+    payload,
+    { dispatch, getState, rejectWithValue, fulfillWithValue }
+  ) => {
+    try {
+      let dataRequest = {
+        old_password: payload.get("old_password"),
+        new_password: payload.get("new_password"),
+        confirmation_new_password: payload.get("confirmation_new_password"),
+      };
+      const responseUser = await userApi.updatePassword(dataRequest);
+      const user = { ...responseUser.data };
+      const data = {
+        ...user,
+      };
+      localStorage.setItem(StorageKeys.user, JSON.stringify(data));
+
+      return data;
+    } catch (error) {
+      if (error.response.status !== 200) {
+        throw rejectWithValue(error.response.data.message);
+      }
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -163,6 +191,14 @@ const authSlice = createSlice({
     [uploadAvatarUserProfile.pending]: (state, action) => {
       state.isLoading = 1;
     },
+    [updateUserPassword.fulfilled]: (state, action) => {
+      state.current = action.payload;
+      state.isLoading = 0;
+    },
+    [updateUserPassword.rejected]: (state, action) => {
+      state.error = action.payload;
+    },
+    [updateUserPassword.pending]: (state, action) => {},
   },
 });
 
