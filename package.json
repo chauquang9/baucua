@@ -2,7 +2,7 @@
   "name": "baucua",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://chauquang9.github.io/baucua/",
+  "homepage": ".",
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
@@ -27,6 +27,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
