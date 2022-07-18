@@ -49,6 +49,32 @@ export const getTopPlayer = createAsyncThunk(
   }
 );
 
+export const getFilters = createAsyncThunk(
+  "statistics/filters",
+  async (payload) => {
+    try {
+      const response = await baucuaApi.getFilters();
+
+      return response.data;
+    } catch (error) {
+      return error.message;
+    }
+  }
+);
+
+export const getStatistics = createAsyncThunk(
+  "statistics/results",
+  async (payload) => {
+    try {
+      const response = await baucuaApi.getStatistics(payload);
+
+      return response.data;
+    } catch (error) {
+      return error.message;
+    }
+  }
+);
+
 const baucuaSlice = createSlice({
   name: "auth",
   initialState: {
@@ -70,6 +96,12 @@ const baucuaSlice = createSlice({
     },
     [getTopPlayer.fulfilled]: (state, action) => {
       state.topPlayer = action.payload;
+    },
+    [getFilters.fulfilled]: (state, action) => {
+      state.filters = action.payload;
+    },
+    [getStatistics.fulfilled]: (state, action) => {
+      state.filters = action.payload;
     },
   },
 });

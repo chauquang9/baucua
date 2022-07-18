@@ -41,6 +41,16 @@ const baucuaApi = {
 
     return axios.get(url, params);
   },
+  async getFilters() {
+    const url = "/api/filters";
+
+    return axios.get(url);
+  },
+  getStatistics(params) {
+    const url = "/api/statistics";
+
+    return axios.get(url, { params: params });
+  },
 };
 
 export default baucuaApi;
