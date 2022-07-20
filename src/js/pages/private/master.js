@@ -313,7 +313,18 @@ class Master extends Component {
           ""
         )}
 
-        <footer></footer>
+        <footer className="footer-admin">
+          <Typography
+            className="copy-right"
+            variant="body2"
+            color="textSecondary"
+            align="center"
+          >
+            {"Copyright By QQ © "}
+            {new Date().getFullYear()}
+            {"."}
+          </Typography>
+        </footer>
       </div>
     );
   }

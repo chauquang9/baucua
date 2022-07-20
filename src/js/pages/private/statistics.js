@@ -23,26 +23,6 @@ import { getFilters, getStatistics } from "../../slices/baucuaReducer";
 
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
@@ -135,7 +115,7 @@ const Statistics = () => {
         <Grid item xs={12}>
           <h1 className="header-content">Statistics</h1>
         </Grid>
-        <Grid item xs={5} className={"header-statistic"}>
+        <Grid item xs={12} sm={5} md={5} lg={5} className={"header-statistic"}>
           <h1 className="header-latest-bets">The item number has appeared</h1>
           <Pie
             data={data}
@@ -151,10 +131,10 @@ const Statistics = () => {
             }}
           />
         </Grid>
-        <Grid item xs={7} className={"header-statistic"}>
+        <Grid item xs={12} sm={7} md={7} lg={7} className={"header-statistic"}>
           <h1 className="header-latest-bets">Bets</h1>
           <Grid container xs={12} spacing={3}>
-            <Grid item xs={3}>
+            <Grid item xs={6} sm={3} md={3} lg={3}>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Users</InputLabel>
                 <Select
@@ -170,7 +150,7 @@ const Statistics = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={6} sm={3} md={3} lg={3}>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Items</InputLabel>
                 <Select
@@ -189,22 +169,33 @@ const Statistics = () => {
             </Grid>
           </Grid>
 
-          <TableContainer className="results-bet" component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <TableContainer component={Paper}>
+            <Table
+              sx={{ width: "100%" }}
+              size="small"
+              className="bet-results"
+              aria-label="a dense table"
+            >
               <TableHead>
                 <TableRow>
-                  <StyledTableCell>Game</StyledTableCell>
-                  <StyledTableCell>Item</StyledTableCell>
-                  <StyledTableCell>Money bet</StyledTableCell>
+                  <TableCell style={{ width: "30%", whiteSpace: "nowrap" }}>
+                    <strong>Game</strong>
+                  </TableCell>
+                  <TableCell style={{ width: "30%", whiteSpace: "nowrap" }}>
+                    <strong>Item</strong>
+                  </TableCell>
+                  <TableCell style={{ width: "30%", whiteSpace: "nowrap" }}>
+                    <strong>Money bet</strong>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {dataBets?.map((row) => (
-                  <StyledTableRow key={row.name}>
-                    <StyledTableCell>{row.game_id}</StyledTableCell>
-                    <StyledTableCell>{row.baucua.name}</StyledTableCell>
-                    <StyledTableCell>{row.money_bet}</StyledTableCell>
-                  </StyledTableRow>
+                  <TableRow key={row.name}>
+                    <TableCell>{row.game_id}</TableCell>
+                    <TableCell>{row.baucua.name}</TableCell>
+                    <TableCell>{row.money_bet}</TableCell>
+                  </TableRow>
                 ))}
               </TableBody>
             </Table>

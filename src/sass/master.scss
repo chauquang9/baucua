@@ -228,12 +228,31 @@ header {
     }
 }
 
+.bet-results {
+    margin-top: 10px;
+}
+
 .header-statistic {
     text-align: center;
 }
 
 .results-bet {
     padding-top: 20px;
+}
+
+.footer-admin {
+    margin-top: 20px;
+    width: 100%;
+    min-height: 50px;
+    background-color: #41B3A3 !important;
+
+    .copy-right {
+        height: 100%;
+        padding-top: 10px;
+        vertical-align: middle;
+        font-size: 20px;
+        color: #23085a;
+    }
 }
 
 @media only screen and (max-width: 600px) {                
