@@ -178,14 +178,17 @@ const Statistics = () => {
             >
               <TableHead>
                 <TableRow>
-                  <TableCell style={{ width: "30%", whiteSpace: "nowrap" }}>
+                  <TableCell style={{ width: "20%", whiteSpace: "nowrap" }}>
                     <strong>Game</strong>
                   </TableCell>
-                  <TableCell style={{ width: "30%", whiteSpace: "nowrap" }}>
+                  <TableCell style={{ width: "20%", whiteSpace: "nowrap" }}>
                     <strong>Item</strong>
                   </TableCell>
-                  <TableCell style={{ width: "30%", whiteSpace: "nowrap" }}>
+                  <TableCell style={{ width: "20%", whiteSpace: "nowrap" }}>
                     <strong>Money bet</strong>
+                  </TableCell>
+                  <TableCell style={{ width: "40%", whiteSpace: "nowrap" }}>
+                    <strong>Time</strong>
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -195,6 +198,7 @@ const Statistics = () => {
                     <TableCell>{row.game_id}</TableCell>
                     <TableCell>{row.baucua.name}</TableCell>
                     <TableCell>{row.money_bet}</TableCell>
+                    <TableCell>{row.created_at}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
