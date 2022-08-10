@@ -9,7 +9,8 @@ import {
   useNavigate,
   withNavigation,
 } from "react-router-dom";
-import { logout } from "../../slices/authReducer";
+import { logout, userProfile } from "../../slices/authReducer";
+import { cleanData } from "../../slices/requestReducer";
 import { withRouter } from "../../components/withRouter";
 import { styled } from "@mui/material/styles";
 import { purple } from "@mui/material/colors";
@@ -33,6 +34,8 @@ import configs from "../../configs/configs";
 import { isMobile } from "react-device-detect";
 import { ReactComponent as HomeIcon } from "../../../asserts/svg/home_black.svg";
 import { ReactComponent as StatisticIcon } from "../../../asserts/svg/view_column.svg";
+import Requests from "./requests";
+import Echo from "../../configs/pusherClient";
 
 class Master extends Component {
   constructor(props) {
@@ -43,6 +46,7 @@ class Master extends Component {
       open: Boolean(null),
       openProfile: Boolean(null),
       openChangePassword: Boolean(null),
+      openRequests: Boolean(null),
       prevScrollpos: window.pageYOffset,
       visible: true,
     };
@@ -51,6 +55,10 @@ class Master extends Component {
   // Adds an event listener when the component is mount.
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
+    const channel = window.Echo.channel("baucua-channel");
+    channel.listen(".apply-request", (data) => {
+      this.props.userProfile();
+    });
   }
 
   // Remove the event listener when the component is unmount.
@@ -82,6 +90,7 @@ class Master extends Component {
       open: Boolean(1),
       openProfile: Boolean(null),
       openChangePassword: Boolean(null),
+      openRequests: Boolean(null),
     });
   };
 
@@ -121,6 +130,21 @@ class Master extends Component {
     e.preventDefault();
     this.setState({
       openChangePassword: Boolean(null),
+    });
+  };
+
+  handleOpenRequests = () => {
+    this.setState({
+      openRequests: Boolean(1),
+      open: Boolean(1),
+    });
+  };
+
+  handleCloseRequests = (e) => {
+    e.preventDefault();
+    this.props.cleanData();
+    this.setState({
+      openRequests: Boolean(null),
     });
   };
 
@@ -250,6 +274,11 @@ class Master extends Component {
                   Change password
                 </Button>
               </MenuItem>
+              <MenuItem>
+                <Button color="info" onClick={this.handleOpenRequests}>
+                  Requests
+                </Button>
+              </MenuItem>
               <Divider />
               <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
             </Menu>
@@ -264,6 +293,11 @@ class Master extends Component {
               open={this.state.openChangePassword}
               onClose={this.handleCloseChangePassword}
             ></ChangePassword>
+
+            <Requests
+              open={this.state.openRequests}
+              onClose={this.handleCloseRequests}
+            ></Requests>
           </div>
         </header>
         <div className="container content-admin">{this.props.children}</div>
@@ -337,4 +371,6 @@ function mapStateToProps(state, ownProps) {
 }
 
 //withRouter to use get navigate.
-export default withRouter(connect(mapStateToProps, { logout })(Master));
+export default withRouter(
+  connect(mapStateToProps, { logout, cleanData, userProfile })(Master)
+);

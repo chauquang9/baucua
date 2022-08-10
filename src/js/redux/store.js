@@ -1,11 +1,13 @@
 import authReducer from "../slices/authReducer";
 import baucuaReducer from "../slices/baucuaReducer";
+import requestReducer from "../slices/requestReducer";
 
 const { configureStore } = require("@reduxjs/toolkit");
 
 const rootReducer = {
   user: authReducer,
   baucua: baucuaReducer,
+  requests: requestReducer,
 };
 
 const store = configureStore({
