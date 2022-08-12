@@ -2,6 +2,7 @@ import React, {
   Component,
   createRef,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -55,11 +56,14 @@ const Requests = (props) => {
   const [reloadRequests, setReloadRequests] = useState(0);
   const [openAddRequest, setOpenAddRequest] = useState(0);
   const [requestMoney, setRequestMoney] = useState(0);
+  const [isDisabled, setIsDisabled] = useState(0);
+  const [isLoadMore, setIsLoadMore] = useState(0);
 
   useEffect(() => {
     if (props.open) {
       dispatch(getRequests(1));
       setCurrentPage(1);
+      setIsLoadMore(0);
       setReloadRequests(0);
     }
   }, [props.open]);
@@ -74,9 +78,14 @@ const Requests = (props) => {
   useEffect(() => {
     if (currentPage != 1) {
       dispatch(getRequests(currentPage));
+      setIsLoadMore(1);
       setReloadRequests(0);
     }
   }, [currentPage]);
+
+  const dataListRequests = useMemo(() => {
+    return listRequests;
+  }, [listRequests]);
 
   const handleCloseAddRequest = () => {
     setOpenAddRequest(0);
@@ -91,12 +100,14 @@ const Requests = (props) => {
   };
 
   const handleAddNewRequest = (e) => {
+    setIsDisabled(1);
     dispatch(addRequests(requestMoney)).then((response) => {
       let payload = response.payload;
       if (typeof response.error != "undefined") {
         setErrorMessage(response.error);
       } else {
         dispatch(cleanData());
+        setIsDisabled(0);
         setReloadRequests(1);
         setOpenAddRequest(0);
       }
@@ -105,6 +116,7 @@ const Requests = (props) => {
 
   const handleLoadMoreRequest = () => {
     setCurrentPage(currentPage + 1);
+    setIsLoadMore(1);
   };
 
   const handleChangeRequestStatus = (requestId, status, isSubmit = true) => {
@@ -221,14 +233,14 @@ const Requests = (props) => {
           </Button>
         </div>
         <div className="content-dialog">
-          {dataRequests.length != 0 && dataRequests.isLoading === 1 ? (
+          {dataRequests.isLoading === 1 && isLoadMore === 0 ? (
             <div className="circle-loading">
               <CircularProgress />
             </div>
           ) : (
             <div>
-              {listRequests.length > 0 ? (
-                listRequests?.map((row) => (
+              {dataListRequests.length > 0 ? (
+                dataListRequests?.map((row) => (
                   <div className="request-item">
                     <div className="request-information">
                       <span className="full-name">
@@ -267,13 +279,21 @@ const Requests = (props) => {
                   <strong style={{ textAlign: "center" }}>No requests</strong>
                 </div>
               )}
-
-              {dataRequests?.data.is_load_more && (
-                <div className="load-more">
-                  <Button onClick={handleLoadMoreRequest} variant="outlined">
-                    Load More
-                  </Button>
-                </div>
+            </div>
+          )}
+          {dataRequests?.data.is_load_more && (
+            <div className="load-more">
+              {dataRequests.length != 0 &&
+              dataRequests.isLoading === 1 &&
+              isLoadMore === 1 ? (
+                <CircularProgress />
+              ) : (
+                <button
+                  onClick={handleLoadMoreRequest}
+                  className="load-more-btn"
+                >
+                  Load More
+                </button>
               )}
             </div>
           )}
@@ -287,28 +307,30 @@ const Requests = (props) => {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle>{"Add request"}</DialogTitle>
-        <DialogContent>
-          {errorMessage ? (
-            <p style={{ color: "#ff0000" }}>{errorMessage}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            id="number"
-            type="number"
-            onChange={handleChange}
-            value={requestMoney.toString()}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={handleAddNewRequest}
-            variant="contained"
-            endIcon={<SendIcon />}
-          >
-            Send
-          </Button>
-        </DialogActions>
+        <form onSubmit={handleAddNewRequest}>
+          <DialogContent>
+            {errorMessage ? (
+              <p style={{ color: "#ff0000" }}>{errorMessage}</p>
+            ) : (
+              ""
+            )}
+            <TextField
+              id="number"
+              type="number"
+              onChange={handleChange}
+              value={requestMoney.toString()}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              disabled={isDisabled == 1 ? "disabled" : ""}
+              onClick={handleAddNewRequest}
+              variant="contained"
+            >
+              Send
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
     </div>
   );

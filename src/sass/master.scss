@@ -300,7 +300,6 @@ header {
 
 .content-dialog {
     padding: 0px 15px 15px 15px;
-    min-height: 200px;
 
     .circle-loading {
         min-height: 200px;
@@ -338,13 +337,17 @@ header {
 
             svg {
                 float: right;
-                padding-right: 10px;
+            }
+
+            svg + svg {
+                margin-right: 15px;
             }
         }
     }
 
     .load-more {
         padding-top: 30px;
+        min-width: 100px;
         text-align: center;
     }
 
@@ -392,4 +395,16 @@ header {
 
 .visiable-hidden {
     visibility: hidden;
+}
+
+.load-more-btn {
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    background-color: #1976d2;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
 }
