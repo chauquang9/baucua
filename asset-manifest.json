@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "./static/css/main.fada7c7f.css",
+    "main.css": "./static/css/main.47418ea5.css",
     "main.js": "./static/js/main.a3418bac.js",
     "static/js/787.ee564605.chunk.js": "./static/js/787.ee564605.chunk.js",
     "static/media/xoso.mp3": "./static/media/xoso.c7ee55966078bcb8c3f1.mp3",
@@ -10,12 +10,12 @@
     "static/media/circle-exclamation-solid.svg": "./static/media/circle-exclamation-solid.652bf5f2332c4d28092d0fdec210e5a1.svg",
     "static/media/view_column.svg": "./static/media/view_column.c7eeb565f1911a59da166ef7ef821079.svg",
     "static/media/home_black.svg": "./static/media/home_black.09f28a7193ed1624e778ad88fc51ab56.svg",
-    "main.fada7c7f.css.map": "./static/css/main.fada7c7f.css.map",
+    "main.47418ea5.css.map": "./static/css/main.47418ea5.css.map",
     "main.a3418bac.js.map": "./static/js/main.a3418bac.js.map",
     "787.ee564605.chunk.js.map": "./static/js/787.ee564605.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.fada7c7f.css",
+    "static/css/main.47418ea5.css",
     "static/js/main.a3418bac.js"
   ]
 }
